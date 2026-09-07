@@ -14,3 +14,6 @@ wheels/
 .coverage
 htmlcov/
 data/*.db
+output/audits/*.json
+output/audits/*.tmp
+output/charts/*.png
