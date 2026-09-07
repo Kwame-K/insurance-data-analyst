@@ -1,5 +1,7 @@
 # Insurance Data Analyst Agent
 
+[![CI](https://github.com/Kwame-K/insurance-data-analyst-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/Kwame-K/insurance-data-analyst-agent/actions/workflows/ci.yml)
+
 A controlled, deterministic, and auditable AI-agent architecture for insurance portfolio analytics.
 
 The project accepts selected analytical questions in natural language, routes each supported request to a pre-defined analytical tool, executes deterministic Python and SQLite calculations, generates optional charts, and persists a complete audit record for every run.
