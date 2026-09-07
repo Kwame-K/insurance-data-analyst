@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -14,6 +15,10 @@ class Settings(BaseSettings):
 
     database_path: Path = Path("data/insurance_portfolio.db")
     dataset_version: str = "synthetic-v1"
+    audit_directory: Path = Path("output/audits")
+
+    groq_api_key: SecretStr | None = None
+    groq_model: str | None = None
 
 
 settings = Settings()

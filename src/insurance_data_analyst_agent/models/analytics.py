@@ -3,7 +3,12 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import (
+    BaseModel,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 
 class Dimension(StrEnum):
@@ -16,6 +21,20 @@ class ChartType(StrEnum):
     GROUPED_BAR = "grouped_bar"
     LINE = "line"
     TABLE = "table"
+
+
+ALLOWED_PROVINCES = {
+    "QC",
+    "ON",
+    "BC",
+    "AB",
+}
+
+ALLOWED_LINES_OF_BUSINESS = {
+    "commercial_property",
+    "commercial_auto",
+    "general_liability",
+}
 
 
 class LossRatioRequest(BaseModel):
@@ -42,6 +61,49 @@ class LossRatioRequest(BaseModel):
 
         return self
 
+    @field_validator("provinces")
+    @classmethod
+    def validate_provinces(
+        cls,
+        provinces: list[str] | None,
+    ) -> list[str] | None:
+        if provinces is None:
+            return None
+
+        invalid_provinces = [
+            province for province in provinces if province not in ALLOWED_PROVINCES
+        ]
+
+        if invalid_provinces:
+            raise ValueError(
+                f"Unsupported province filters: {', '.join(invalid_provinces)}."
+            )
+
+        return provinces
+
+    @field_validator("lines_of_business")
+    @classmethod
+    def validate_lines_of_business(
+        cls,
+        lines_of_business: list[str] | None,
+    ) -> list[str] | None:
+        if lines_of_business is None:
+            return None
+
+        invalid_lines_of_business = [
+            line_of_business
+            for line_of_business in lines_of_business
+            if line_of_business not in ALLOWED_LINES_OF_BUSINESS
+        ]
+
+        if invalid_lines_of_business:
+            raise ValueError(
+                "Unsupported line-of-business filters: "
+                f"{', '.join(invalid_lines_of_business)}."
+            )
+
+        return lines_of_business
+
 
 class ToolCallAudit(BaseModel):
     tool_name: str
@@ -55,6 +117,7 @@ class ChartMetadata(BaseModel):
     y: str
     series: list[str]
     title: str
+    output_path: str | None = None
 
 
 class AuditMetadata(BaseModel):
