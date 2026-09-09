@@ -192,6 +192,8 @@ insurance-data-analyst-agent/
 └── README.md
 ```
 
+For a detailed architecture description, component responsibilities, sequence diagrams, evaluation flow, and future underwriting workflow, see [System Architecture](docs/architecture/system-architecture.md).
+
 ## Installation
 
 ### Prerequisites
